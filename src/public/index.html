@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>harver</title>
+    <link rel="icon" href="favicon.ico" sizes="16x16" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/quasar@^1.0.0/dist/quasar.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script>
+      window.quasarConfig = {
+        brand: {
+          primary: "#1E1E1E"
+        }
+      };
+    </script>
+  </head>
+
+  <body>
+    <script src="https://cdn.jsdelivr.net/npm/vue@latest/dist/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/quasar@^1.4.5/dist/quasar.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+    <div id="q-app">
+      <q-layout view="hHh lpR fFf">
+        <q-header class="bg-primary text-white">
+          <q-toolbar>
+            <q-toolbar-title>
+              <img src="./img/logo.png" style="margin-top:2px;" height="40" />
+            </q-toolbar-title>
+          </q-toolbar>
+        </q-header>
+
+        <q-page-container>
+          <q-page class="row" padding>
+            <div class="col-12">
+              <h2 class="text-center q-mt-sm q-mb-none">
+                Hello
+              </h2>
+              <h6 class="text-h6 q-mt-none q-mb-lg text-center text-grey">
+                Node & Vue js Application
+              </h6>
+              <p class="text-subtitle1 text-center">
+                <strong>
+                  Select the task from task selector then press the send button.
+                </strong>
+                <br />
+                If you are press the send button, send the http request to the
+                back-end. Once get the response you can see in the result board
+                and node application console
+                <br />
+                <strong>Note : </strong> In background process the request and
+                generate the <code>.txt</code> file in project root folder.
+              </p>
+              <div class="col-12 row q-gutter-x-sm q-mb-sm">
+                <div class="col">
+                  <q-select
+                    outlined
+                    dense
+                    options-dense
+                    :options="options"
+                    label="Task Selector"
+                    v-model="taskID"
+                    emit-value
+                    map-options
+                  ></q-select>
+                </div>
+                <div class="col-auto">
+                  <q-btn
+                    icon="fiber_smart_record"
+                    class="fit"
+                    color="positive"
+                    @click="onClick"
+                    :disabled="!taskID"
+                  >
+                    &nbsp;Send
+                  </q-btn>
+                </div>
+              </div>
+              <q-card class="bg-grey-9" style="min-height:200px">
+                <q-card-actions align="right">
+                  <div class="col text-white text-h5">Result Board</div>
+                  <q-btn
+                    icon="delete"
+                    color="negative"
+                    v-if="data.length>0"
+                    @click="data=[]"
+                  />
+                </q-card-actions>
+                <q-card-section class="text-negative" v-if="error">
+                  {{message}}
+                </q-card-section>
+                <q-card-section class="text-positive" v-else>
+                  <template v-for="line in data">{{line}}<br /></template>
+                </q-card-section>
+                <q-inner-loading dark :showing="loading">
+                  <q-spinner-gears size="50px" color="deep-orange" />
+                </q-inner-loading>
+              </q-card>
+            </div>
+            <q-page-scroller
+              position="bottom-right"
+              :scroll-offset="150"
+              :offset="[18, 18]"
+            >
+              <q-btn fab icon="keyboard_arrow_up" color="teal" />
+            </q-page-scroller>
+          </q-page>
+        </q-page-container>
+
+        <q-footer class="bg-grey-8 text-white">
+          <q-toolbar> <q-space></q-space>&copy;2019 harver </q-toolbar>
+        </q-footer>
+      </q-layout>
+    </div>
+    <script src="./js/app.js"></script>
+  </body>
+</html>
