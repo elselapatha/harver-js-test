@@ -10,10 +10,10 @@
   "author": "Lakshitha Elapatha <lakshitha.e@gmail.com>",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1",
-    "http-errors": "^1.7.3",
+    "finalhandler": "^1.1.2",
     "morgan": "^1.9.1",
     "opn": "^6.0.0",
+    "path-parser": "^4.2.0",
     "random-words": "^1.1.0",
     "word-maker": "file:word-maker"
   },

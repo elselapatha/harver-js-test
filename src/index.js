@@ -1,39 +1,27 @@
+const morgan = require('morgan');
+const handler = require('finalhandler')
 
-const createError = require('http-errors');
-const express = require('express');
-const path = require('path');
-const logger = require('morgan');
+const logger = morgan('dev')
 
-const app = express();
+const routes = require('./routes')
+const routerUtils = require('./util/router.util.js')
 
+global.rootPath = __dirname
 
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
+const app = (req, res) => {
+    const done = handler(req, res)
+    logger(req, res, (err) => {
+        if (err) return done(err)
+        const requestURL = req.url
+        if (routerUtils.match(routes, requestURL)) {
+            const route = routerUtils.get(routes, requestURL)
+            req.params = routerUtils.params(route, requestURL)
+            routes[route](req, res)
+        } else {
+            routes.static(req, res)
+        }
+    })
+}
 
-app.use('/', require('./routes/index'));
-app.use('/api', require('./routes/api'));
-
-/**
- * capture 404
- */
-app.use(function (req, res, next) {
-    next(createError(404));
-});
-
-/**
- * error handler
- */
-app.use(function (err, req, res, next) {
-    // set locals, only providing error in development
-    res.locals.message = err.message;
-    res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-    // render the error page
-    res.status(err.status || 500);
-    res.render('error');
-});
 
 module.exports = app;
-
-console.log('It works!');

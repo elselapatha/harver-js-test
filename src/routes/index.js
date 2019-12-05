@@ -1,9 +1,4 @@
-var express = require('express');
-var router = express.Router();
+const path = require('path')
+const responseUtils = require('../util/response.util.js')
 
-/* GET home page. */
-router.get('/', function (req, res, next) {
-    res.render('index', { title: 'harver' });
-});
-
-module.exports = router;
+module.exports = (req, res) => responseUtils.render(res, path.join(rootPath, 'public', 'index.html'))
